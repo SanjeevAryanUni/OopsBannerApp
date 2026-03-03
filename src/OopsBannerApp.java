@@ -1,29 +1,17 @@
+import java.util.HashMap;
+
+/**
+ * UC8 - HashMap Based ASCII Banner ("OOPS")
+ */
 public class OopsBannerApp {
 
-    static class CharacterPatternMap {
-        private char character;
-        private String[] pattern;
+    // Create HashMap with character patterns
+    public static HashMap<Character, String[]> createCharacterMap() {
 
-        public CharacterPatternMap(char character, String[] pattern) {
-            this.character = character;
-            this.pattern = pattern;
-        }
+        HashMap<Character, String[]> charMap = new HashMap<>();
 
-        public char getCharacter() {
-            return character;
-        }
-
-        public String[] getPattern() {
-            return pattern;
-        }
-    }
-
-    public static CharacterPatternMap[] createCharacterPatternMaps() {
-
-        CharacterPatternMap[] charMaps = new CharacterPatternMap[4];
-
-        // O (9-width)
-        String[] O = {
+        // --- O ---
+        charMap.put('O', new String[]{
             "   *****  ",
             "  *     * ",
             "  *     * ",
@@ -31,10 +19,10 @@ public class OopsBannerApp {
             "  *     * ",
             "  *     * ",
             "   *****  "
-        };
+        });
 
-        // P (9-width)
-        String[] P = {
+        // --- P ---
+        charMap.put('P', new String[]{
             "  ******  ",
             "  *     * ",
             "  *     * ",
@@ -42,10 +30,10 @@ public class OopsBannerApp {
             "  *       ",
             "  *       ",
             "  *       "
-        };
+        });
 
-        // S (9-width)
-        String[] S = {
+        // --- S ---
+        charMap.put('S', new String[]{
             "   ****** ",
             "  *       ",
             "  *       ",
@@ -53,10 +41,10 @@ public class OopsBannerApp {
             "        * ",
             "        * ",
             "  ******  "
-        };
+        });
 
-        // Space (9-width)
-        String[] space = {
+        // --- SPACE ---
+        charMap.put(' ', new String[]{
             "         ",
             "         ",
             "         ",
@@ -64,37 +52,35 @@ public class OopsBannerApp {
             "         ",
             "         ",
             "         "
-        };
+        });
 
-        charMaps[0] = new CharacterPatternMap('O', O);
-        charMaps[1] = new CharacterPatternMap('P', P);
-        charMaps[2] = new CharacterPatternMap('S', S);
-        charMaps[3] = new CharacterPatternMap(' ', space);
-
-        return charMaps;
+        return charMap;
     }
 
-    public static String[] getCharacterPattern(char ch, CharacterPatternMap[] charMaps) {
-        for (CharacterPatternMap map : charMaps) {
-            if (map.getCharacter() == ch) {
-                return map.getPattern();
-            }
-        }
-        return charMaps[3].getPattern(); // default-space
-    }
+    // Display banner
+    public static void displayBanner(String message, HashMap<Character, String[]> charMap) {
 
-    public static void printMessage(String message, CharacterPatternMap[] charMaps) {
-        for (int row = 0; row < 7; row++) {
-            for (int i = 0; i < message.length(); i++) {
-                String[] pattern = getCharacterPattern(message.charAt(i), charMaps);
-                System.out.print(pattern[row] + "  ");  // spacing between letters
+        int height = charMap.get('O').length;
+
+        for (int line = 0; line < height; line++) {
+
+            StringBuilder sb = new StringBuilder();
+
+            for (char ch : message.toCharArray()) {
+                sb.append(charMap.get(ch)[line]).append("  "); // space between letters
             }
-            System.out.println();
+
+            System.out.println(sb.toString());
         }
     }
 
+    // Main method
     public static void main(String[] args) {
-        CharacterPatternMap[] charMaps = createCharacterPatternMaps();
-        printMessage("OOPS", charMaps);
+
+        HashMap<Character, String[]> charMap = createCharacterMap();
+
+        String message = "OOPS";
+
+        displayBanner(message, charMap);
     }
 }
